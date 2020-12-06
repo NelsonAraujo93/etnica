@@ -1,0 +1,22 @@
+{
+  "name": "etnica",
+  "version": "1.0.0",
+  "description": "Website for Afrodes",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "author": "Nelson Araujo VagosStudiosSAS",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "connect-multiparty": "^2.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.11.4",
+    "validator": "^13.5.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}
