@@ -3,7 +3,6 @@
 
 var express = require('express');
 
-var AdminController = require('../controllers/admin');
 var EtnicaController = require('../controllers/etnicaHome');
 
 
