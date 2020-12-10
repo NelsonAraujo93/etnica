@@ -197,11 +197,7 @@ var controller = {
         console.log(params);
         let rename='';
         const splited = params.split('_');
-        for(index of splited){
-            rename = rename+index;
-        }
-        console.log(rename);
-        if(rename===''){
+        if(splited.length===0){
             const name = params.split('.')[0];
             console.log(name);
             let type = params.split('.')[1];
@@ -222,6 +218,9 @@ var controller = {
                 }
             });
         }else{
+            for(let i=0, len = splited.length; i>len;i++){
+                rename = rename + splite[i];
+            }
             const name = rename.split('.')[0];
             console.log(name);
             let type = rename.split('.')[1];
@@ -241,7 +240,7 @@ var controller = {
                     });
                 }
             });
-        }
+        }   
     },
     /**
      * Funcion name:  loadVideos
