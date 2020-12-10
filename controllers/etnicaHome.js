@@ -194,7 +194,12 @@ var controller = {
      */
     loadImages:  (req, res ) => {
         var params=req.params.image;
-        var path_file= './uploads/images/' + params;
+        const name = params.split('.')[0];
+        let type = params.split('.')[1];
+        if(type==='jpg'){
+            type='JPG';
+        }
+        var path_file= './uploads/images/' + name + type;
         fs.exists(path_file, (exists)=>{
             if(exists){
                 return res.sendFile(path.resolve(path_file));
@@ -214,6 +219,7 @@ var controller = {
     loadVideos:  (req, res ) => {
         var params=req.params.video;
         var path_file= './uploads/videos/' + params;
+
         fs.exists(path_file, (exists)=>{
             if(exists){
                 return res.sendFile(path.resolve(path_file));
