@@ -2,7 +2,6 @@
 
 const path = require ('path');
 const fs = require('fs');
-const request = require('request');
 var validator = require('validator');
 var PodcastModel = require('../models/podcast');
 var VideoModel = require('../models/videos');
