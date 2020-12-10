@@ -2,6 +2,7 @@
 
 const path = require ('path');
 const fs = require('fs');
+const request = require('request');
 var validator = require('validator');
 var PodcastModel = require('../models/podcast');
 var VideoModel = require('../models/videos');
@@ -440,10 +441,20 @@ var controller = {
         var params = req.body;
         console.log(params._id);
         var url = params.url;
-        var path_file= './uploads/articles/' + url;
+        var path_file = './uploads/articles/' + url;
+        var filePath = './uploads/articles/';
         fs.exists(path_file, (exists)=>{
             if(exists){
-                return res.download(path_file);
+                return new Promise(function(resolve, reject) {
+                    try {
+                        var filestream = fs.createReadStream(path_file);
+                        res.contentType("application/pdf");
+                        filestream.pipe(res);
+                        //return request('http://localhost:4200').pipe(stream);
+                    } catch (e) {
+                        return reject(e);
+                    }
+                });
             }else{
                 return res.status(404).send({
                     status: 'error',
