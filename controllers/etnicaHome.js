@@ -181,6 +181,33 @@ var controller = {
         }
 
     },
+/**
+     * Funcion name:  deleteArticulo
+     * Funcionalidad: Guarda un admin en la base de datos
+     * 
+     */
+    deleteArticulo: (req, res) => {
+        var id = req.params.id;
+            //crear objeto
+        ArticuloModel.findOneAndDelete({_id:id}, (err, articleDeleted) =>{
+            if(err){
+                return res.status(500).send({
+                    status: 'error',
+                    message: 'el articulo no se ha borrado'
+                });
+            }
+            if(!articleDeleted){
+                return res.status(404).send({
+                    status: 'error',
+                    message: 'el articulo no existe'
+                });
+            }
+            return res.status(200).send({
+                status: 'OK',
+                message: 'el articulo se ha borrado'
+            });
+        });
+    },
 
     /**
      * Funcion name:  savePodcast

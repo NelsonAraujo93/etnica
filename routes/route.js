@@ -27,6 +27,7 @@ router.post('/download-pdf', EtnicaController.downloadPDF);
 router.put('/update-article/:id', EtnicaController.updateArticulo);
 
 //metodos delete borrar
+router.delete('/delete-article/:id', EtnicaController.deleteArticulo);
 //router.delete('/login', AdminController.login);
 
 
