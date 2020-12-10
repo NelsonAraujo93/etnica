@@ -197,6 +197,7 @@ var controller = {
         console.log(params);
         let rename='';
         const splited = params.split('_');
+        console.log(splited);
         if(splited.length===1){
             console.log('noUnderscore');
             const name = params.split('.')[0];
