@@ -198,6 +198,7 @@ var controller = {
         let rename='';
         const splited = params.split('_');
         if(splited.length===0){
+            console.log('noUnderscore');
             const name = params.split('.')[0];
             console.log(name);
             let type = params.split('.')[1];
@@ -218,6 +219,7 @@ var controller = {
                 }
             });
         }else{
+            console.log('Underscore');
             for(let i=0, len = splited.length; i>len;i++){
                 rename = rename + splite[i];
             }
