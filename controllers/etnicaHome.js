@@ -411,6 +411,7 @@ var controller = {
      */
     downloadPDF : (req , res) =>{
         var params = req.body;
+        console.log(params._id);
         var url = params.url;
         var path_file= './uploads/articles/' + url;
         fs.exists(path_file, (exists)=>{
