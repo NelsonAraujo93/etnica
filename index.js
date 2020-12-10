@@ -20,8 +20,10 @@ var server = https.createServer(options, app);
 
 //appHttp.all('*', (req, res) => res.redirect(301, 'https://vagosstudios.com:3900'));
 //const httpServer = http.createServer(app);
-
-mongoose.set('useFindAndModify', false);
+server.listen(port, () => {
+    console.log("server https starting on port : " + port);
+});
+/*mongoose.set('useFindAndModify', false);
 mongoose.Promise = global.Promise;
 
 mongoose.connect('mongodb://localhost:27017/etinica-db', { useNewUrlParser: true })
@@ -35,4 +37,4 @@ mongoose.connect('mongodb://localhost:27017/etinica-db', { useNewUrlParser: true
         /*httpServer.listen(port, () => {
             console.log("server starting on porto : " + port);
         });*/
-    });
+   // });
