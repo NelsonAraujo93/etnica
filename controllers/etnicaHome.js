@@ -221,7 +221,7 @@ var controller = {
         }else{
             console.log('Underscore');
             for(let i=0, len = splited.length; i>len;i++){
-                rename = rename + splite[i];
+                rename = rename + splited[i];
             }
             const name = rename.split('.')[0];
             console.log(name);
