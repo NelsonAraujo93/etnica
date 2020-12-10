@@ -109,7 +109,7 @@ var controller = {
             articulo.save((err, articuloStored) => {
 
                 if (err || !articuloStored) {
-                    return res.status(404).send({
+                    return res.status(500).send({
                         status: 'error',
                         message: 'el articulo no se ha guardado'
                     });
@@ -122,6 +122,58 @@ var controller = {
             });
         } else {
 
+            return res.status(404).send({
+                status: 'error',
+                mesage: 'datos imcompletos' + 'sec'
+            });
+        }
+
+    },
+
+      /**
+     * Funcion name:  updateArticulo
+     * Funcionalidad: Guarda un admin en la base de datos
+     * 
+     */
+    updateArticulo: (req, res) => {
+        var id = req.params.id;
+        var params= req.body;
+        try {
+            var validate_title = !validator.isEmpty(params.title);
+            var validate_name = !validator.isEmpty(params.name);
+            var validate_image = !validator.isEmpty(params.image);
+            var validate_date = !validator.isEmpty(params.date);
+            var validate_url = !validator.isEmpty(params.url);
+        } catch (err) {
+            return res.status(404).send({
+                status: 'error',
+                mesage: 'datos imcompletos' + err
+            });
+        }
+
+        if (validate_title && validate_image  && validate_date && validate_url && validate_name) {
+        //if (validate_title && validate_duration) {
+
+            //crear objeto
+            ArticuloModel.findOneAndUpdate({_id:id},params,{new:true}, (err, articleUpdated) =>{
+                if(err){
+                    return res.status(500).send({
+                        status: 'error',
+                        message: 'el articulo no se ha actualizado'
+                    });
+                }
+                if(!articleUpdated){
+                    return res.status(404).send({
+                        status: 'error',
+                        message: 'el articulo no existe'
+                    });
+                }
+                return res.status(200).send({
+                    status: 'OK',
+                    message: 'el articulo se ha actualizado'
+                });
+            });
+        } else {
             return res.status(404).send({
                 status: 'error',
                 mesage: 'datos imcompletos' + 'sec'
@@ -224,8 +276,8 @@ var controller = {
             }
             const name = rename.split('.')[0];
             let type = rename.split('.')[1];
-            if(type ==='png'){
-                type='PNG';
+            if(type=='jpg'){
+                type='JPG';
             }
             var path_file= './uploads/images/' + name +'.'+ type;
             console.log(path_file);
