@@ -195,25 +195,53 @@ var controller = {
     loadImages:  (req, res ) => {
         var params=req.params.image;
         console.log(params);
-        const name = params.split('.')[0];
-        console.log(name);
-        let type = params.split('.')[1];
-        console.log(type);
-        if(type ==='jpg'){
-            type='JPG';
+        let rename='';
+        const splited = params.split('_');
+        for(index of splited){
+            rename = rename+index;
         }
-        var path_file= './uploads/images/' + name +'.'+ type;
-        console.log(path_file);
-        fs.exists(path_file, (exists)=>{
-            if(exists){
-                return res.sendFile(path.resolve(path_file));
-            }else{
-                return res.status(404).send({
-                    status: 'error',
-                    message: "there's no image related"
-                });
+        console.log(rename);
+        if(rename===''){
+            const name = params.split('.')[0];
+            console.log(name);
+            let type = params.split('.')[1];
+            console.log(type);
+            if(type ==='jpg'){
+                type='JPG';
             }
-        });
+            var path_file= './uploads/images/' + name +'.'+ type;
+            console.log(path_file);
+            fs.exists(path_file, (exists)=>{
+                if(exists){
+                    return res.sendFile(path.resolve(path_file));
+                }else{
+                    return res.status(404).send({
+                        status: 'error',
+                        message: "there's no image related"
+                    });
+                }
+            });
+        }else{
+            const name = rename.split('.')[0];
+            console.log(name);
+            let type = rename.split('.')[1];
+            console.log(type);
+            if(type ==='jpg'){
+                type='JPG';
+            }
+            var path_file= './uploads/images/' + name +'.'+ type;
+            console.log(path_file);
+            fs.exists(path_file, (exists)=>{
+                if(exists){
+                    return res.sendFile(path.resolve(path_file));
+                }else{
+                    return res.status(404).send({
+                        status: 'error',
+                        message: "there's no image related"
+                    });
+                }
+            });
+        }
     },
     /**
      * Funcion name:  loadVideos
