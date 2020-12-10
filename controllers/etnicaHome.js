@@ -224,8 +224,8 @@ var controller = {
             }
             const name = rename.split('.')[0];
             let type = rename.split('.')[1];
-            if(type ==='jpg'){
-                type='JPG';
+            if(type ==='png'){
+                type='PNG';
             }
             var path_file= './uploads/images/' + name +'.'+ type;
             console.log(path_file);
