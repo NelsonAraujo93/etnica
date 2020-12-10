@@ -202,7 +202,7 @@ var controller = {
         if(type ==='jpg'){
             type='JPG';
         }
-        var path_file= './uploads/images/' + name + type;
+        var path_file= './uploads/images/' + name +'.'+ type;
         console.log(path_file);
         fs.exists(path_file, (exists)=>{
             if(exists){
