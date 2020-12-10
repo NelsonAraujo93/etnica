@@ -219,8 +219,7 @@ var controller = {
         }else{
             console.log('Underscore');
             for(let i=0, len = splited.length; i<len;i++){
-                rename = rename + splited[i];
-                console.log(rename);
+                rename = rename + splited[i].toLowerCase();
             }
             const name = rename.split('.')[0];
             let type = rename.split('.')[1];
