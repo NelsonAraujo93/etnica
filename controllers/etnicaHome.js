@@ -218,7 +218,7 @@ var controller = {
             });
         }else{
             console.log('Underscore');
-            for(let i=0, len = splited.length; i<len;i++){
+            for(let i=0, len = splited.length; i<=len;i++){
                 rename = rename + splited[i];
                 console.log(rename);
             }
