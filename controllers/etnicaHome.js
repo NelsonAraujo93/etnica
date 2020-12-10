@@ -228,6 +228,7 @@ var controller = {
                 type='JPG';
             }
             var path_file= './uploads/images/' + name +'.'+ type;
+            console.log(path_file);
             fs.exists(path_file, (exists)=>{
                 if(exists){
                     return res.sendFile(path.resolve(path_file));
