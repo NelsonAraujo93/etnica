@@ -194,12 +194,16 @@ var controller = {
      */
     loadImages:  (req, res ) => {
         var params=req.params.image;
+        console.log(params);
         const name = params.split('.')[0];
+        console.log(name);
         let type = params.split('.')[1];
-        if(type==='jpg'){
+        console.log(type);
+        if(type ==='jpg'){
             type='JPG';
         }
         var path_file= './uploads/images/' + name + type;
+        console.log(path_file);
         fs.exists(path_file, (exists)=>{
             if(exists){
                 return res.sendFile(path.resolve(path_file));
