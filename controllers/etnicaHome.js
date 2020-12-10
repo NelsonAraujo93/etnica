@@ -201,14 +201,11 @@ var controller = {
         if(splited.length===1){
             console.log('noUnderscore');
             const name = params.split('.')[0];
-            console.log(name);
             let type = params.split('.')[1];
-            console.log(type);
             if(type ==='jpg'){
                 type='JPG';
             }
             var path_file= './uploads/images/' + name +'.'+ type;
-            console.log(path_file);
             fs.exists(path_file, (exists)=>{
                 if(exists){
                     return res.sendFile(path.resolve(path_file));
@@ -223,16 +220,14 @@ var controller = {
             console.log('Underscore');
             for(let i=0, len = splited.length; i>len;i++){
                 rename = rename + splited[i];
+                console.log(rename);
             }
             const name = rename.split('.')[0];
-            console.log(name);
             let type = rename.split('.')[1];
-            console.log(type);
             if(type ==='jpg'){
                 type='JPG';
             }
             var path_file= './uploads/images/' + name +'.'+ type;
-            console.log(path_file);
             fs.exists(path_file, (exists)=>{
                 if(exists){
                     return res.sendFile(path.resolve(path_file));
