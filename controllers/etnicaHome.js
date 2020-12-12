@@ -144,6 +144,7 @@ var controller = {
             var validate_image = !validator.isEmpty(params.image);
             var validate_date = !validator.isEmpty(params.date);
             var validate_url = !validator.isEmpty(params.url);
+            var validate_categorie = !validator.isEmpty(params.categorie)
         } catch (err) {
             return res.status(404).send({
                 status: 'error',
@@ -151,7 +152,7 @@ var controller = {
             });
         }
 
-        if (validate_title && validate_image  && validate_date && validate_url && validate_name) {
+        if (validate_title && validate_image  && validate_date && validate_url && validate_name && validate_categorie) {
         //if (validate_title && validate_duration) {
 
             //crear objeto
