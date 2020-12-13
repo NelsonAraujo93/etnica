@@ -16,6 +16,7 @@ router.get('/load-image/:image', EtnicaController.loadImages);
 router.get('/load-video/:video', EtnicaController.loadVideos);
 router.get('/load-videos', EtnicaController.loadAllVideos);
 router.get('/load-articulos', EtnicaController.loadAllArticulos);
+router.get('/get-pdf/:url', EtnicaController.getPdf);
 //metodos post enviar
 
 router.post('/new-video', EtnicaController.saveVideo);

@@ -463,7 +463,36 @@ var controller = {
             }
         })
     },
-
+/**
+     * Funcion name:  getPdf
+     * Funcionalidad: Guarda un admin en la base de datos
+     * 
+     */
+    getPdf: (req, res) => {
+        var params = req.params;
+        var url = params.url;
+        var path_file= 'uploads/articles/' + url;
+        var filePath = './uploads/articles/';
+        fs.exists(path_file, (exists)=>{
+            if(exists){
+                return new Promise(function(resolve, reject) {
+                    try {
+                        var filestream = fs.createReadStream(path_file);
+                        res.contentType("application/pdf");
+                        filestream.pipe(res);
+                        //return request('http://localhost:4200').pipe(stream);
+                    } catch (e) {
+                        return reject(e);
+                    }
+                });
+            }else{
+                return res.status(404).send({
+                    status: 'error',
+                    message: "there's no pdf related"
+                });
+            }
+        });
+    },
     /*formularioCorreo: (req, res) => {
         configMensaje(req.body);
         console.log(res);
