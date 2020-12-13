@@ -84,6 +84,7 @@ var controller = {
             var validate_image = !validator.isEmpty(params.image);
             var validate_date = !validator.isEmpty(params.date);
             var validate_url = !validator.isEmpty(params.url);
+            var validate_categorie = !validator.isEmpty(params.categorie);
         } catch (err) {
             return res.status(404).send({
                 status: 'error',
@@ -102,6 +103,7 @@ var controller = {
             articulo.date = params.date;
             articulo.url = params.url;
             articulo.name = params.name;
+            articulo.categorie = params.categorie;
 
 
             //guardar en base de datos con save
@@ -274,19 +276,15 @@ var controller = {
      */
     loadImages:  (req, res ) => {
         var params=req.params.image;
-        console.log(params);
         let rename='';
         const splited = params.split('_');
-        console.log(splited);
         if(splited.length===1){
-            console.log('noUnderscore');
             const name = params.split('.')[0];
             let type = params.split('.')[1];
             if(type ==='jpg'){
                 type='JPG';
             }
             var path_file= './uploads/images/' + name +'.'+ type;
-            console.log(path_file);
             fs.exists(path_file, (exists)=>{
                 if(exists){
                     return res.sendFile(path.resolve(path_file));
@@ -298,7 +296,6 @@ var controller = {
                 }
             });
         }else{
-            console.log('Underscore');
             for(let i=0, len = splited.length; i<len;i++){
                 rename = rename + splited[i].toLowerCase();
             }
@@ -308,7 +305,6 @@ var controller = {
                 type='JPG';
             }
             var path_file= './uploads/images/' + name +'.'+ type;
-            console.log(path_file);
             fs.exists(path_file, (exists)=>{
                 if(exists){
                     return res.sendFile(path.resolve(path_file));
