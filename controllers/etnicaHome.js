@@ -370,7 +370,7 @@ var controller = {
                 return new Promise(function(resolve, reject) {
                     try {
                         var filestream = fs.createReadStream(path_file);
-                        res.contentType("video/mp4");
+                        res.contentType("application/pdf");
                         filestream.pipe(res);
                         //return request('http://localhost:4200').pipe(stream);
                     } catch (e) {
