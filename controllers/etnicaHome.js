@@ -385,44 +385,6 @@ var controller = {
             }
         })
     },
-    /**
-     * Funcion name:  getAdmin
-     * Funcionalidad: Guarda un admin en la base de datos
-     * 
-     */
-    getAdminInfo: (req, res) => {
-        var params = req.params;
-        try {
-            var validate_id = !validator.isEmpty(params.id);
-        } catch (err) {
-            return res.status(404).send({
-                status: 'error',
-                mesage: 'Datos imcompletos'
-            });
-        }
-
-        if (validate_id) {
-            //verificar que exista
-            adminModel.findById(params.id, (err, user) => {
-                if (err && !user) {
-                    return res.status(404).send({
-                        status: 'error',
-                        mesage: 'El usuario no ha sido encontrado'
-                    });
-                } else {
-                    return res.status(200).send({
-                        status: 'Ok',
-                        data: user
-                    });
-                }
-            });
-        } else {
-            return res.status(404).send({
-                status: 'error',
-                mesage: 'Datos incompletos'
-            });
-        }
-    },
 
     /**
      * Funcion name:  load All Videos
