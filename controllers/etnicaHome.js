@@ -317,15 +317,16 @@ var controller = {
             });
         }   
     },
+    
     /**
      * Funcion name:  loadVideos
      * Funcionalidad: carga el listado de transferencias
      * 
      */
-    loadVideos:  (req, res ) => {
-        var params=req.params.video;
+    loadVideos:  (req, res )=> {
+        /*var params=req.params.video;
         var path_file= './uploads/videos/' + params;
-
+        console.log(params);
         fs.exists(path_file, (exists)=>{
             if(exists){
                 return res.sendFile(path.resolve(path_file));
@@ -335,7 +336,54 @@ var controller = {
                     message: "there's no video related"
                 });
             }
+        });*/
+        var url = req.params.video;
+        var path_file = './uploads/videos/' + url;
+        fs.exists(path_file, (exists)=>{
+            if(exists){
+                return new Promise(function(resolve, reject) {
+                    try {
+                        var filestream = fs.createReadStream(path_file);
+                        res.contentType("video/mp4");
+                        filestream.pipe(res);
+                        //return request('http://localhost:4200').pipe(stream);
+                    } catch (e) {
+                        return reject(e);
+                    }
+                });
+            }else{
+                return res.status(404).send({
+                    status: 'error',
+                    message: "there's no pdf related"
+                });
+            }
         });
+    },
+    downloadPDF : (req , res) =>{
+        var params = req.body;
+        console.log(params._id);
+        var url = params.url;
+        var path_file = './uploads/articles/' + url;
+        var filePath = './uploads/articles/';
+        fs.exists(path_file, (exists)=>{
+            if(exists){
+                return new Promise(function(resolve, reject) {
+                    try {
+                        var filestream = fs.createReadStream(path_file);
+                        res.contentType("video/mp4");
+                        filestream.pipe(res);
+                        //return request('http://localhost:4200').pipe(stream);
+                    } catch (e) {
+                        return reject(e);
+                    }
+                });
+            }else{
+                return res.status(404).send({
+                    status: 'error',
+                    message: "there's no pdf related"
+                });
+            }
+        })
     },
     /**
      * Funcion name:  getAdmin
