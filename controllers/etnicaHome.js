@@ -160,6 +160,35 @@ var controller = {
         }
 
     },
+     /**
+     * Funcion name:  getVisitors
+     * Funcionalidad: Guarda un admin en la base de datos
+     * 
+     */
+    getVisitors: (req, res) => {
+        var id = req.params.id;
+            //crear objeto
+        VisitorsModel.findById(id).exec((err,visitors)=>{
+            if(err){
+                return res.status(500).send({
+                    status: 'error',
+                    mesage: 'Al devolver visitors'
+                });
+            }
+            if(!visitors){
+                return res.status(404).send({
+                    status: 'error',
+                    mesage: 'No hay visitors para mostrar'
+                });
+            }
+            return res.status(200).send({
+                status: 'Ok',
+                data: visitors
+            });
+        });
+           
+    },
+
 
     /**
      * Funcion name:  saveArticulo
