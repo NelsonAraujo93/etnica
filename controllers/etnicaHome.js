@@ -6,6 +6,7 @@ var validator = require('validator');
 var PodcastModel = require('../models/podcast');
 var VideoModel = require('../models/videos');
 var ArticuloModel = require('../models/articulos');
+var VisitorsModel = require('../models/visitors');
 
 //const configMensaje = require('../controllers/configMensajes');
 
@@ -71,6 +72,95 @@ var controller = {
         }
 
     },
+    
+    /**
+     * Funcion name:  saveVisitors
+     * Funcionalidad: Guarda un admin en la base de datos
+     * 
+     */
+    saveVisitors: (req, res) => {
+        var params = req.body;
+        try {
+            var validate_number = !validator.isEmpty(params.number);
+        } catch (err) {
+            return res.status(404).send({
+                status: 'error',
+                mesage: 'datos imcompletos' + err
+            });
+        }
+
+        if (validate_number) {
+            var visitors = new VisitorsModel();
+            visitors.number = params.number;
+            visitors.save((err, visitorsStored) => {
+                if (err || !visitorsStored) {
+                    return res.status(500).send({
+                        status: 'error',
+                        message: 'el visitors no se ha guardado'
+                    });
+                } else {
+                    return res.status(200).send({
+                        status: 'OK',
+                        data: visitors
+                    });
+                }
+            });
+        } else {
+            return res.status(404).send({
+                status: 'error',
+                mesage: 'datos imcompletos' + 'sec'
+            });
+        }
+
+    },
+     /**
+     * Funcion name:  updateVisitors
+     * Funcionalidad: Guarda un admin en la base de datos
+     * 
+     */
+    updateVisitors: (req, res) => {
+        var id = req.params.id;
+        var params= req.body;
+        try {
+            var validate_number = !validator.isEmpty(params.number);
+        } catch (err) {
+            return res.status(404).send({
+                status: 'error',
+                mesage: 'datos imcompletos' + err
+            });
+        }
+
+        if (validate_number) {
+        //if (validate_number && validate_duration) {
+
+            //crear objeto
+            VisitorsModel.findOneAndUpdate({_id:id},params,{new:true}, (err, visitorsUpdated) =>{
+                if(err){
+                    return res.status(500).send({
+                        status: 'error',
+                        message: 'el articulo no se ha actualizado'
+                    });
+                }
+                if(!visitorsUpdated){
+                    return res.status(404).send({
+                        status: 'error',
+                        message: 'el articulo no existe'
+                    });
+                }
+                return res.status(200).send({
+                    status: 'OK',
+                    message: 'el articulo se ha actualizado'
+                });
+            });
+        } else {
+            return res.status(404).send({
+                status: 'error',
+                mesage: 'datos imcompletos' + 'sec'
+            });
+        }
+
+    },
+
     /**
      * Funcion name:  saveArticulo
      * Funcionalidad: Guarda un admin en la base de datos
