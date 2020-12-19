@@ -122,7 +122,7 @@ var controller = {
         var id = req.params.id;
         var params= req.body;
         try {
-            var validate_number = !validator.isEmpty(params.number);
+            var validate_number = !validator.isEmpty(params.number.toString());
         } catch (err) {
             return res.status(404).send({
                 status: 'error',
