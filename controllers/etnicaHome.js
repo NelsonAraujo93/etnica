@@ -149,7 +149,8 @@ var controller = {
                 }
                 return res.status(200).send({
                     status: 'OK',
-                    message: 'el articulo se ha actualizado'
+                    message: 'el articulo se ha actualizado',
+                    data: visitorsUpdated
                 });
             });
         } else {
