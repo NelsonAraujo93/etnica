@@ -33,6 +33,7 @@ router.put('/update-visitors/:id', EtnicaController.updateVisitors);
 
 //metodos delete borrar
 router.delete('/delete-article/:id', EtnicaController.deleteArticulo);
+router.delete('/delete-video/:id', EtnicaController.deleteVideo);
 //router.delete('/login', AdminController.login);
 
 

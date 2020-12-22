@@ -331,6 +331,33 @@ var controller = {
             });
         });
     },
+/**
+     * Funcion name:  deleteVideo
+     * Funcionalidad: Guarda un admin en la base de datos
+     * 
+     */
+    deleteVideo: (req, res) => {
+        var id = req.params.id;
+            //crear objeto
+        VideoModel.findOneAndDelete({_id:id}, (err, videoDeleted) =>{
+            if(err){
+                return res.status(500).send({
+                    status: 'error',
+                    message: 'el articulo no se ha borrado'
+                });
+            }
+            if(!videoDeleted){
+                return res.status(404).send({
+                    status: 'error',
+                    message: 'el articulo no existe'
+                });
+            }
+            return res.status(200).send({
+                status: 'OK',
+                message: 'el articulo se ha borrado'
+            });
+        });
+    },
 
     /**
      * Funcion name:  savePodcast
