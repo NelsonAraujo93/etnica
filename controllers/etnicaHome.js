@@ -72,6 +72,59 @@ var controller = {
         }
 
     },
+
+      /**
+     * Funcion name:  updateVideo
+     * Funcionalidad: Guarda un admin en la base de datos
+     * 
+     */
+    updateVideo: (req, res) => {
+        var id = req.params.id;
+        var params= req.body;
+        try {
+            var validate_title = !validator.isEmpty(params.title);
+            var validate_name = !validator.isEmpty(params.name);
+            var validate_duration = !validator.isEmpty(params.duration);
+            var validate_image = !validator.isEmpty(params.image);
+            var validate_date = !validator.isEmpty(params.date);
+            var validate_url = !validator.isEmpty(params.url);
+        } catch (err) {
+            return res.status(404).send({
+                status: 'error',
+                mesage: 'datos imcompletos' + err
+            });
+        }
+
+        if (validate_title && validate_image && validate_duration  && validate_date && validate_url && validate_name) {
+            //if (validate_title && validate_duration) {
+
+            //crear objeto
+            VideoModel.findOneAndUpdate({_id:id},params,{new:true}, (err, videoUpdate) =>{
+                if(err){
+                    return res.status(500).send({
+                        status: 'error',
+                        message: 'el video no se ha actualizado'
+                    });
+                }
+                if(!videoUpdate){
+                    return res.status(404).send({
+                        status: 'error',
+                        message: 'el video no existe'
+                    });
+                }
+                return res.status(200).send({
+                    status: 'OK',
+                    message: 'el video se ha actualizado'
+                });
+            });
+        } else {
+            return res.status(404).send({
+                status: 'error',
+                mesage: 'datos imcompletos' + 'sec'
+            });
+        }
+
+    },
     
     /**
      * Funcion name:  saveVisitors

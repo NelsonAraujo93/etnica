@@ -29,6 +29,8 @@ router.post('/download-pdf', EtnicaController.downloadPDF);
 
 //metodos put actualizar
 router.put('/update-article/:id', EtnicaController.updateArticulo);
+
+router.put('/update-video/:id', EtnicaController.updateVideo);
 router.put('/update-visitors/:id', EtnicaController.updateVisitors);
 
 //metodos delete borrar
