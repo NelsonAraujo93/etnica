@@ -386,6 +386,8 @@ Apache-2.0
    limitations under the License.
 
 
+ngx-youtube-player
+
 rxjs
 Apache-2.0
                                Apache License
