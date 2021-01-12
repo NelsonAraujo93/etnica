@@ -381,8 +381,6 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-function _readOnlyError(name) { throw new Error("\"" + name + "\" is read-only"); }
-
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
@@ -894,7 +892,7 @@ var PDFViewerApplication = {
     var maxScale = Number(_app_options.AppOptions.get("maxZoom"));
 
     if (!maxScale) {
-      maxScale = (_readOnlyError("maxScale"), _ui_utils.MAX_SCALE);
+      maxScale = _ui_utils.MAX_SCALE;
     }
 
     do {
@@ -914,7 +912,7 @@ var PDFViewerApplication = {
     var minScale = Number(_app_options.AppOptions.get("minZoom"));
 
     if (!minScale) {
-      minScale = (_readOnlyError("minScale"), _ui_utils.MIN_SCALE);
+      minScale = _ui_utils.MIN_SCALE;
     }
 
     do {
@@ -1164,6 +1162,14 @@ var PDFViewerApplication = {
                     total = _ref.total;
 
                 _this7.progress(loaded / total);
+
+                _this7.eventBus.dispatch("progress", {
+                  source: _this7,
+                  type: "load",
+                  total: total,
+                  loaded: loaded,
+                  percent: 100 * loaded / total
+                });
               };
 
               loadingTask.onUnsupportedFeature = _this7.fallback.bind(_this7);
@@ -2076,7 +2082,7 @@ var PDFViewerApplication = {
     var printResolution = _app_options.AppOptions.get("printResolution");
 
     var optionalContentConfigPromise = this.pdfViewer.optionalContentConfigPromise;
-    var printService = PDFPrintServiceFactory.instance.createPrintService(this.pdfDocument, pagesOverview, printContainer, printResolution, optionalContentConfigPromise, this.l10n);
+    var printService = PDFPrintServiceFactory.instance.createPrintService(this.pdfDocument, pagesOverview, printContainer, printResolution, optionalContentConfigPromise, this.l10n, this.pdfViewer.eventBus);
     this.printService = printService;
     this.forceRendering();
     printService.layout();
@@ -12798,8 +12804,14 @@ var BaseViewer = /*#__PURE__*/function () {
         }
 
         var noPadding = this.isInPresentationMode || this.removePageBorders;
+        var verticalPadding = _ui_utils.VERTICAL_PADDING;
+
+        if (this.pageViewMode === 'single') {
+          verticalPadding += 15;
+        }
+
         var hPadding = noPadding ? 0 : _ui_utils.SCROLLBAR_PADDING;
-        var vPadding = noPadding ? 0 : _ui_utils.VERTICAL_PADDING;
+        var vPadding = noPadding ? this.pageViewMode === 'single' ? 10 : 0 : verticalPadding;
 
         if (!noPadding && this._isScrollModeHorizontal) {
           var _ref2 = [vPadding, hPadding];
@@ -13369,7 +13381,7 @@ var BaseViewer = /*#__PURE__*/function () {
         return;
       }
 
-      this._setScale(val, false);
+      this._setScale(val, this.pageViewMode === "single");
     }
   }, {
     key: "currentScaleValue",
@@ -28762,6 +28774,7 @@ function determineMaxDimensions() {
 function PDFPrintService(pdfDocument, pagesOverview, printContainer, printResolution) {
   var optionalContentConfigPromise = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : null;
   var l10n = arguments.length > 5 ? arguments[5] : undefined;
+  var eventBus = arguments.length > 6 ? arguments[6] : undefined;
   this.pdfDocument = pdfDocument;
   this.pagesOverview = pagesOverview;
   this.printContainer = printContainer;
@@ -28770,6 +28783,7 @@ function PDFPrintService(pdfDocument, pagesOverview, printContainer, printResolu
   this.l10n = l10n || _ui_utils.NullL10n;
   this.currentPage = -1;
   this.scratchCanvas = document.createElement("canvas");
+  this.eventBus = eventBus;
 }
 
 PDFPrintService.prototype = {
@@ -28838,13 +28852,13 @@ PDFPrintService.prototype = {
       }
 
       if (_this.currentPage >= pageCount) {
-        renderProgress(window.filteredPageCount | pageCount, window.filteredPageCount | pageCount, _this.l10n);
+        renderProgress(window.filteredPageCount | pageCount, window.filteredPageCount | pageCount, _this.l10n, _this.eventBus);
         resolve();
         return;
       }
 
       var index = _this.currentPage;
-      renderProgress(index, window.filteredPageCount | pageCount, _this.l10n);
+      renderProgress(index, window.filteredPageCount | pageCount, _this.l10n, _this.eventBus);
       renderPage(_this, _this.pdfDocument, index + 1, _this.pagesOverview[index], _this._printResolution, _this._optionalContentConfigPromise).then(_this.useRenderedPage.bind(_this)).then(function () {
         renderNextPage(resolve, reject);
       }, reject);
@@ -28957,7 +28971,7 @@ function abort() {
   }
 }
 
-function renderProgress(index, total, l10n) {
+function renderProgress(index, total, l10n, eventBus) {
   var progressContainer = document.getElementById("printServiceOverlay");
   var progress = Math.round(100 * index / total);
   var progressBar = progressContainer.querySelector("progress");
@@ -28967,6 +28981,13 @@ function renderProgress(index, total, l10n) {
     progress: progress
   }, progress + "%").then(function (msg) {
     progressPerc.textContent = msg;
+  });
+  eventBus.dispatch("progress", {
+    source: this,
+    type: "print",
+    total: total,
+    page: index,
+    percent: 100 * index / total
   });
 }
 
@@ -29013,12 +29034,12 @@ function ensureOverlay() {
 
 _app.PDFPrintServiceFactory.instance = {
   supportsPrinting: true,
-  createPrintService: function createPrintService(pdfDocument, pagesOverview, printContainer, printResolution, optionalContentConfigPromise, l10n) {
+  createPrintService: function createPrintService(pdfDocument, pagesOverview, printContainer, printResolution, optionalContentConfigPromise, l10n, eventBus) {
     if (activeService) {
       throw new Error("The print service is created and active.");
     }
 
-    activeService = new PDFPrintService(pdfDocument, pagesOverview, printContainer, printResolution, optionalContentConfigPromise, l10n);
+    activeService = new PDFPrintService(pdfDocument, pagesOverview, printContainer, printResolution, optionalContentConfigPromise, l10n, eventBus);
     return activeService;
   }
 };
