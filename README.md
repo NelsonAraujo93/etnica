@@ -3,7 +3,7 @@
 # 📗 Table of Contents
 
 - [📗 Table of Contents](#-table-of-contents)
-- [📖 Carta Laboral ](#-etnica-)
+- [📖 Etnica ](#-etnica-)
   - [🛠 Built With ](#-built-with-)
     - [Tech Stack ](#tech-stack-)
     - [Key Features ](#key-features-)
@@ -16,7 +16,7 @@
 
 # 📖 Etnica <a name="etnica"></a>
 
-**Cata Laboral** This is a MEAN project that allows the user to request for a Laboral Letter and send the letter to the user mail.
+**Etnica** This is a MEAN project that allows the user to request for a Laboral Letter and send the letter to the user mail.
 ## 🛠 Built With <a name="built-with"></a>
 
 ### Tech Stack <a name="tech-stack"></a>
